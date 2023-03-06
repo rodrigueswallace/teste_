@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<!--
+<div> 
+ <h4>
+  --Nome: Wallace Alves Rodrigues
+--Data: 06/03/2023
+
+-- Teste 1
+
+INSERT INTO produto (cod_prod, loj_prod, desc_prod, dt_inclu_prod, preco_prod)
+VALUES (170, 2, 'LEITE CONDESADO MOCOCA', '2010-12-30', 45.40);
+
+/\*\*/
+</h4>
+
+<h4>
+-- Teste 2
+
+UPDATE produto
+SET preco_prod = 95.40
+WHERE cod_prod = 170 AND loj_prod = 2;
+
+/_WHERE é usada para especificar a condição de atualização com base no índice composto (cod_prod e loj_prod) da tabela._/
+</h4>
+<h4>
+-- Teste 3
+
+SELECT \*
+FROM produto
+WHERE loj_prod IN (1, 2);
+
+/_Essa instrução SQL usa a cláusula WHERE com a condição IN para selecionar todos os registros da tabela "produto" onde o valor do campo "loj_prod" é igual a 1 ou 2. O símbolo indica que todos os campos da tabela devem ser retornados na consulta._/
+</h4>
+<h4>
+-- Teste 4
+
+SELECT MAX(dt_inclu_prod) AS maior_data, MIN(dt_inclu_prod) AS menor_data
+FROM produto;
+
+/\*Nessa instrução, o comando SELECT é utilizado para selecionar os valores mínimos e máximos da coluna dt_inclu_prod da tabela produtos. A função MIN() é utilizada para selecionar o valor mínimo, que representa a menor data de inclusão do produto. A função MAX() é utilizada para selecionar o valor máximo, que representa a maior data de inclusão do produto.
+
+As palavras-chave AS são utilizadas para renomear as colunas resultantes da consulta.\*/
+</h4>
+<h4>
+-- Teste 5
+
+SELECT COUNT(\*) AS quantidade_registros FROM produtos;
+
+/\*Nessa instrução, o comando SELECT é utilizado para selecionar a contagem total de registros da tabela produtos. A função COUNT() é utilizada para contar o número de registros da tabela.
+
+A palavra-chave AS é utilizada para renomear a coluna resultante da consulta, para que ela seja apresentada com um nome mais adequado. \*/
+</h4>
+<h4>
+-- Teste 6
+
+SELECT \* FROM produtos WHERE desc_prod LIKE 'L%';
+
+/_Nessa instrução, o comando SELECT é utilizado para recuperar dados da tabela produtos. O caractere _ é utilizado para selecionar todas as colunas da tabela. A cláusula WHERE é utilizada para especificar quais registros devem ser selecionados, utilizando o operador LIKE para selecionar os registros cujo valor da coluna desc_prod começa com a letra "L", seguida por qualquer sequência de caracteres.
+
+A expressão 'L%' utilizada no operador LIKE representa uma cadeia de caracteres que começa com a letra "L". O caractere % indica que qualquer sequência de caracteres pode seguir a letra "L".\*/
+</h4>
+<h4>
+-- Teste 7
+
+SELECT loj_prod, SUM(preco_prod) AS total_por_loja
+FROM produtos
+GROUP BY loj_prod;
+
+/\*Nessa instrução, o comando SELECT é utilizado para selecionar as colunas loj_prod e SUM(preco_prod) da tabela produtos. A função SUM() é utilizada para calcular a soma dos valores da coluna preco_prod de cada loja. A palavra-chave AS é utilizada para renomear a coluna resultante da consulta, para que ela seja apresentada com um nome mais adequado. Nesse caso, a coluna será apresentada com o nome total_por_loja.
+
+A cláusula GROUP BY é utilizada para agrupar os registros da tabela produtos por loja. Dessa forma, a função SUM() será aplicada a cada grupo de registros, calculando a soma dos valores da coluna preco_prod de cada loja.\*/
+</h4>
+<h4>
+-- Questão A
+
+SELECT p.loj_prod, l.desc_loj, p.Cód_prod, p.desc_prod, p.preco_prod, e.qtd_prod
+FROM produtos p
+INNER JOIN estoque e ON p.Cód_prod = e.Cód_prod AND p.loj_prod = e.loj_prod
+INNER JOIN lojas l ON p.loj_prod = l.loj_prod
+WHERE p.loj_prod = 1;
+
+/_A cláusula FROM especifica as tabelas que serão usadas na consulta: produtos, estoque e lojas.
+O INNER JOIN é usado para unir as tabelas produtos e estoque através das chaves primárias Cód_prod e loj_prod.
+O segundo INNER JOIN é usado para unir a tabela lojas à consulta através da chave loj_prod.
+A cláusula WHERE filtra os resultados para trazer somente os registros da loja 1.
+Os campos selecionados na consulta são: loj_prod, desc_loj, Cód_prod, desc_prod, preco_prod e qtd_prod._/
+</h4>
+<h4>
+-- Questão B
+
+SELECT p.cod_prod, p.desc_prod
+FROM produtos p
+LEFT JOIN estoque e ON p.cod_prod = e.cod_prod AND p.loj_prod = e.loj_prod
+WHERE e.cod_prod IS NULL;
+
+
+/_Explicando o select acima, ele está selecionando o código do produto e a descrição do produto da tabela de produtos, fazendo um LEFT JOIN com a tabela de estoque. A condição p.Cód_prod = e.Cód_prod AND p.loj_prod = e.loj_prod garante que estamos combinando as linhas corretas em ambas as tabelas. A seguir, a cláusula WHERE filtra os registros em que não há correspondência na tabela de estoque, ou seja, e.Cód_prod e e.loj_prod são nulos._/
+</h4>
+<h4>
+-- Questão C
+
+SELECT e.Cod_prod, e.loj_prod, p.desc_prod, e.qtd_prod
+FROM Estoque e
+LEFT JOIN Produtos p ON e.Cod_prod = p.Cod_prod AND e.loj_prod = p.loj_prod
+WHERE p.Cod_prod IS NULL;
+
+/_Seleciona o código do produto, o código da loja, a descrição do produto e a quantidade em estoque da tabela de estoque (tabela "e") e da tabela de produtos (tabela "p");
+Usa a cláusula LEFT JOIN para unir as duas tabelas, selecionando todos os registros da tabela de estoque e os registros correspondentes da tabela de produtos;
+Na condição da cláusula JOIN, é verificado se o código do produto e o código da loja das duas tabelas são iguais;
+Usa a cláusula WHERE para filtrar apenas os registros em que não foi possível encontrar correspondência na tabela de produtos, ou seja, onde o código do produto da tabela de produtos é nulo._/
+ </h4>
+  
+
+</div>
+-->
